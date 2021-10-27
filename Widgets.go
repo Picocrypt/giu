@@ -1,7 +1,6 @@
 package giu
 
 import (
-	"bytes"
 	ctx "context"
 	"fmt"
 	"image"
