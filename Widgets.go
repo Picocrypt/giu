@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/HACKERALERT/imgui-go"
-	//resty "github.com/go-resty/resty/v2"
 	"github.com/sahilm/fuzzy"
 )
 
@@ -1028,71 +1027,6 @@ func (i *ImageWithURLWidget) LayoutForFailure(widgets ...Widget) *ImageWithURLWi
 
 // Build implements Widget interface
 func (i *ImageWithURLWidget) Build() {
-	/*imgState := &ImageState{}
-
-	if state := Context.GetState(i.id); state == nil {
-		Context.SetState(i.id, imgState)
-
-		// Prevent multiple invocation to download image.
-		downloadContext, cancalFunc := ctx.WithCancel(ctx.Background())
-		Context.SetState(i.id, &ImageState{loading: true, cancel: cancalFunc})
-
-		go func() {
-			// Load image from url
-			client := reesty.New()
-			client.SetTimeout(i.downloadTimeout)
-			resp, err := client.R().SetContext(downloadContext).Get(i.imgURL)
-			if err != nil {
-				Context.SetState(i.id, &ImageState{failure: true})
-
-				// Trigger onFailure event
-				if i.onFailure != nil {
-					i.onFailure(err)
-				}
-
-				return
-			}
-
-			img, _, err := image.Decode(bytes.NewReader(resp.Body()))
-			if err != nil {
-				Context.SetState(i.id, &ImageState{failure: true})
-
-				// Trigger onFailure event
-				if i.onFailure != nil {
-					i.onFailure(err)
-				}
-
-				return
-			}
-
-			rgba := ImageToRgba(img)
-
-			NewTextureFromRgba(rgba, func(tex *Texture) {
-				Context.SetState(i.id, &ImageState{
-					loading: false,
-					failure: false,
-					texture: tex,
-				})
-			})
-
-			// Trigger onReady event
-			if i.onReady != nil {
-				i.onReady()
-			}
-		}()
-	} else {
-		imgState = state.(*ImageState)
-	}
-
-	switch {
-	case imgState.failure:
-		i.whenFailure.Build()
-	case imgState.loading:
-		i.whenLoading.Build()
-	default:
-		i.img.texture = imgState.texture
-		i.img.Build()
-	}*/
 }
 
 var _ Widget = &InputTextWidget{}
