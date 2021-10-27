@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/HACKERALERT/imgui-go"
-	"github.com/sahilm/fuzzy"
 )
 
 // GenAutoID automatically generates fidget's id
@@ -1042,8 +1041,19 @@ type InputTextWidget struct {
 	onChange   func()
 }
 
+type Match struct {
+	// The matched string.
+	Str string
+	// The index of the matched string in the supplied slice.
+	Index int
+	// The indexes of matched characters. Useful for highlighting matches.
+	MatchedIndexes []int
+	// Score used to rank matches
+	Score int
+}
+
 type inputTextState struct {
-	autoCompleteCandidates fuzzy.Matches
+	autoCompleteCandidates []Match
 }
 
 func (s *inputTextState) Dispose() {
@@ -1071,7 +1081,7 @@ func (i *InputTextWidget) Labelf(format string, args ...interface{}) *InputTextW
 	return i.Label(fmt.Sprintf(format, args...))
 }
 
-// AutoComplete enables auto complete popup by using fuzzy search of current value against candidates
+// AutoComplete enables auto complete popup by using _ search of current value against candidates
 // Press enter to confirm the first candidate
 func (i *InputTextWidget) AutoComplete(candidates []string) *InputTextWidget {
 	i.candidates = candidates
@@ -1128,13 +1138,13 @@ func (i *InputTextWidget) Build() {
 	if isChanged {
 		// Enable auto complete
 		if len(i.candidates) > 0 {
-			matches := fuzzy.Find(*i.value, i.candidates)
+			/*matches := feuzzy.Find(*i.value, i.candidates)
 			if matches.Len() > 0 {
 				size := int(math.Min(5, float64(matches.Len())))
 				matches = matches[:size]
 
 				state.autoCompleteCandidates = matches
-			}
+			}*/
 		}
 	}
 
