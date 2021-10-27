@@ -1,6 +1,6 @@
 package giu
 
-import "github.com/go-gl/glfw/v3.3/glfw"
+import "github.com/HACKERALERT/glfw/v3.3/glfw"
 
 // Key represents a glfw key
 type Key glfw.Key
