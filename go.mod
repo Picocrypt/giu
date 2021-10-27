@@ -7,7 +7,7 @@ require (
 	github.com/AllenDang/imgui-go v1.12.1-0.20210920063948-69c005674767
 	github.com/faiface/mainthread v0.0.0-20171120011319-8b78f0a41ae3
 	github.com/HACKERALERT/gl v0.0.0-20211027194356-838f5789a406 // indirect
-	github.com/HACKERALERT/glfw/v3.3/glfw v0.0.0-20211027203214-46b694c0b854
+	github.com/HACKERALERT/glfw/v3.3/glfw v0.0.0-20211027203414-1b9369ce24d2
 	github.com/go-resty/resty/v2 v2.3.0
 	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/sahilm/fuzzy v0.1.0
