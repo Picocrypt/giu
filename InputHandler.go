@@ -2,7 +2,7 @@ package giu
 
 // input menager is used to register a keyboard shortcuts in an app
 import (
-	"github.com/go-gl/glfw/v3.3/glfw"
+	"github.com/HACKERALERT/glfw/v3.3/glfw"
 )
 
 // store keyboard shortcuts
