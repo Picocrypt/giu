@@ -1137,13 +1137,6 @@ func (i *InputTextWidget) Build() {
 	if isChanged {
 		// Enable auto complete
 		if len(i.candidates) > 0 {
-			/*matches := feuzzy.Find(*i.value, i.candidates)
-			if matches.Len() > 0 {
-				size := int(math.Min(5, float64(matches.Len())))
-				matches = matches[:size]
-
-				state.autoCompleteCandidates = matches
-			}*/
 		}
 	}
 
