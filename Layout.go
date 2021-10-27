@@ -2,7 +2,7 @@ package giu
 
 const (
 	// Auto is used to widget.Size to indicate height or width to occupy available spaces
-	Auto float32 = -1
+	Auto float32 = -0.0000001
 )
 
 // Widget is a base unit of giu rendering system.
