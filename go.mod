@@ -3,7 +3,7 @@ module github.com/HACKERALERT/giu
 go 1.16
 
 require (
-	github.com/AllenDang/go-findfont v0.0.0-20200702051237-9f180485aeb8
+	github.com/HACKERALERT/go-findfont v0.0.0-20211027212021-2e5a409c1318
 	github.com/HACKERALERT/imgui-go v1.12.1-0.20211027204847-a29285973224
 	github.com/faiface/mainthread v0.0.0-20171120011319-8b78f0a41ae3
 	github.com/HACKERALERT/gl v0.0.0-20211027194356-838f5789a406 // indirect
