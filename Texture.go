@@ -6,7 +6,7 @@ import (
 	"runtime"
 
 	"github.com/HACKERALERT/imgui-go"
-	"github.com/faiface/mainthread"
+	"github.com/HACKERALERT/mainthread"
 )
 
 type Texture struct {
