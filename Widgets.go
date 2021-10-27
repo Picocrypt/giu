@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/HACKERALERT/imgui-go"
-	resty "github.com/go-resty/resty/v2"
+	//resty "github.com/go-resty/resty/v2"
 	"github.com/sahilm/fuzzy"
 )
 
@@ -1038,9 +1038,9 @@ func (i *ImageWithURLWidget) Build() {
 		downloadContext, cancalFunc := ctx.WithCancel(ctx.Background())
 		Context.SetState(i.id, &ImageState{loading: true, cancel: cancalFunc})
 
-		go func() {
+		/*go func() {
 			// Load image from url
-			client := resty.New()
+			client := reesty.New()
 			client.SetTimeout(i.downloadTimeout)
 			resp, err := client.R().SetContext(downloadContext).Get(i.imgURL)
 			if err != nil {
@@ -1080,7 +1080,7 @@ func (i *ImageWithURLWidget) Build() {
 			if i.onReady != nil {
 				i.onReady()
 			}
-		}()
+		}()*/
 	} else {
 		imgState = state.(*ImageState)
 	}
