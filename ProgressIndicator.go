@@ -5,7 +5,7 @@ import (
 	"math"
 	"time"
 
-	"github.com/AllenDang/imgui-go"
+	"github.com/HACKERALERT/imgui-go"
 )
 
 var _ Disposable = &progressIndicatorState{}
@@ -30,16 +30,16 @@ func (ps *progressIndicatorState) update() {
 	ticker.Stop()
 }
 
-// Dispose implements Disposable interface.
+// Dispose implements Disposable interface
 func (ps *progressIndicatorState) Dispose() {
 	ps.stop = true
 }
 
-// static check to ensure if ProgressIndicatorWidget implements Widget interface.
+// static check to ensure if ProgressIndicatorWidget implements Widget interface
 var _ Widget = &ProgressIndicatorWidget{}
 
 // ProgressIndicatorWidget represents progress indicator widget
-// see examples/extrawidgets/.
+// see examples/extrawidgets/
 type ProgressIndicatorWidget struct {
 	internalID string
 	width      float32
@@ -48,18 +48,18 @@ type ProgressIndicatorWidget struct {
 	label      string
 }
 
-// ProgressIndicator creates a new ProgressIndicatorWidget.
+// ProgressIndicator creates a new ProgressIndicatorWidget
 func ProgressIndicator(label string, width, height, radius float32) *ProgressIndicatorWidget {
 	return &ProgressIndicatorWidget{
 		internalID: "###giu-progress-indicator",
-		width:      width,
-		height:     height,
-		radius:     radius,
+		width:      width * Context.GetPlatform().GetContentScale(),
+		height:     height * Context.GetPlatform().GetContentScale(),
+		radius:     radius * Context.GetPlatform().GetContentScale(),
 		label:      label,
 	}
 }
 
-// Build implements Widget interface.
+// Build implements Widget interface
 func (p *ProgressIndicatorWidget) Build() {
 	// State exists
 	if s := Context.GetState(p.internalID); s == nil {
@@ -68,9 +68,7 @@ func (p *ProgressIndicatorWidget) Build() {
 		Context.SetState(p.internalID, &ps)
 		go ps.update()
 	} else {
-		var isOk bool
-		state, isOk := s.(*progressIndicatorState)
-		Assert(isOk, "ProgressIndicatorWidget", "Build", "got unexpected type of widget's sate")
+		state := s.(*progressIndicatorState)
 
 		child := Child().Border(false).Size(p.width, p.height).Layout(Layout{
 			Custom(func() {

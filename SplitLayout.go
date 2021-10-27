@@ -1,6 +1,10 @@
 package giu
 
-import "github.com/AllenDang/imgui-go"
+import (
+	"fmt"
+
+	"github.com/HACKERALERT/imgui-go"
+)
 
 type SplitDirection uint8
 
@@ -16,9 +20,9 @@ type SplitLayoutState struct {
 	sashPos float32
 }
 
-// Dispose implements disposable interface.
+// Dispose implements Disposable interface
 func (s *SplitLayoutState) Dispose() {
-	// noop
+	// Nothing to do here.
 }
 
 type SplitLayoutWidget struct {
@@ -34,25 +38,14 @@ type SplitLayoutWidget struct {
 	border              bool
 }
 
-func SplitLayout(direction SplitDirection, sashPos float32, layout1, layout2 Widget) *SplitLayoutWidget {
+func SplitLayout(direction SplitDirection, border bool, sashPos float32, layout1, layout2 Widget) *SplitLayoutWidget {
 	return &SplitLayoutWidget{
 		direction: direction,
 		sashPos:   sashPos,
 		layout1:   layout1,
 		layout2:   layout2,
-		border:    true,
-		id:        GenAutoID("SplitLayout"),
+		border:    border,
 	}
-}
-
-func (s *SplitLayoutWidget) Border(b bool) *SplitLayoutWidget {
-	s.border = b
-	return s
-}
-
-func (s *SplitLayoutWidget) ID(id string) *SplitLayoutWidget {
-	s.id = id
-	return s
 }
 
 func (s *SplitLayoutWidget) restoreItemSpacing(layout Widget) Layout {
@@ -74,23 +67,19 @@ func (s *SplitLayoutWidget) restoreItemSpacing(layout Widget) Layout {
 
 // Build Child panel. If layout is a SplitLayout, set the frame padding to zero.
 func (s *SplitLayoutWidget) buildChild(width, height float32, layout Widget) Widget {
+	_, isSplitLayoutWidget := layout.(*SplitLayoutWidget)
+
 	return Layout{
 		Custom(func() {
-			_, isSplitLayoutWidget := layout.(*SplitLayoutWidget)
-			hasFramePadding := isSplitLayoutWidget || !s.border
-			hasBorder := !isSplitLayoutWidget && s.border
-
-			if hasFramePadding {
+			if isSplitLayoutWidget || !s.border {
 				PushFramePadding(0, 0)
 			}
-
-			Child().
-				Border(hasBorder).
-				Size(width, height).
-				Layout(s.restoreItemSpacing(layout)).
-				Build()
-
-			if hasFramePadding {
+		}),
+		Style().SetColor(StyleColorChildBg, Vec4ToRGBA(imgui.CurrentStyle().GetColor(imgui.StyleColorChildBg))).To(
+			Child().Border(!isSplitLayoutWidget && s.border).Size(width, height).Layout(s.restoreItemSpacing(layout)),
+		),
+		Custom(func() {
+			if isSplitLayoutWidget || !s.border {
 				PopStyle()
 			}
 		}),
@@ -98,41 +87,43 @@ func (s *SplitLayoutWidget) buildChild(width, height float32, layout Widget) Wid
 }
 
 func (s *SplitLayoutWidget) Build() {
-	splitLayoutState := s.getState()
-	s.originItemSpacingX, s.originItemSpacingY = GetItemInnerSpacing()
+	s.id = GenAutoID("SplitLayout")
+
+	var splitLayoutState *SplitLayoutState
+	// Register state
+	stateID := fmt.Sprintf("SplitLayout_%s", s.id)
+	if state := Context.GetState(stateID); state == nil {
+		splitLayoutState = &SplitLayoutState{delta: 0.0, sashPos: s.sashPos}
+		Context.SetState(stateID, splitLayoutState)
+	} else {
+		splitLayoutState = state.(*SplitLayoutState)
+	}
+
+	itemSpacingX, itemSpacingY := GetItemInnerSpacing()
+	s.originItemSpacingX, s.originItemSpacingY = itemSpacingX, itemSpacingY
+
 	s.originFramePaddingX, s.originFramePaddingY = GetFramePadding()
+	s.originFramePaddingX /= Context.GetPlatform().GetContentScale()
+	s.originFramePaddingY /= Context.GetPlatform().GetContentScale()
 
 	var layout Layout
 
 	splitLayoutState.sashPos += splitLayoutState.delta
-	if splitLayoutState.sashPos < 1 {
-		splitLayoutState.sashPos = 1
-	}
 
-	switch s.direction {
-	case DirectionHorizontal:
-		availableW, _ := GetAvailableRegion()
-		if splitLayoutState.sashPos >= availableW {
-			splitLayoutState.sashPos = availableW
-		}
-
+	if s.direction == DirectionHorizontal {
 		layout = Layout{
 			Row(
 				s.buildChild(splitLayoutState.sashPos, 0, s.layout1),
-				VSplitter(&(splitLayoutState.delta)).Size(s.originItemSpacingX, 0),
-				s.buildChild(Auto, Auto, s.layout2),
+				VSplitter(&(splitLayoutState.delta)).Size(itemSpacingX, 0),
+				s.buildChild(0, 0, s.layout2),
 			),
 		}
-	case DirectionVertical:
-		_, availableH := GetAvailableRegion()
-		if splitLayoutState.sashPos >= availableH {
-			splitLayoutState.sashPos = availableH
-		}
+	} else {
 		layout = Layout{
 			Column(
-				s.buildChild(Auto, splitLayoutState.sashPos, s.layout1),
-				HSplitter(&(splitLayoutState.delta)).Size(0, s.originItemSpacingY),
-				s.buildChild(Auto, Auto, s.layout2),
+				s.buildChild(0, splitLayoutState.sashPos, s.layout1),
+				HSplitter(&(splitLayoutState.delta)).Size(0, itemSpacingY),
+				s.buildChild(0, 0, s.layout2),
 			),
 		}
 	}
@@ -140,17 +131,4 @@ func (s *SplitLayoutWidget) Build() {
 	PushItemSpacing(0, 0)
 	layout.Build()
 	PopStyle()
-}
-
-func (s *SplitLayoutWidget) getState() (state *SplitLayoutState) {
-	if st := Context.GetState(s.id); st == nil {
-		state = &SplitLayoutState{delta: 0.0, sashPos: s.sashPos}
-		Context.SetState(s.id, state)
-	} else {
-		var isOk bool
-		state, isOk = st.(*SplitLayoutState)
-		Assert(isOk, "SplitLayoutWidget", "Build", "got unexpected type of widget's state")
-	}
-
-	return state
 }

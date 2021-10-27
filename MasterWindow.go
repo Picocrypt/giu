@@ -3,15 +3,13 @@ package giu
 import (
 	"image"
 	"image/color"
-	"runtime"
 	"time"
 
-	"github.com/AllenDang/imgui-go"
+	"github.com/HACKERALERT/imgui-go"
 	"github.com/faiface/mainthread"
-	"github.com/go-gl/glfw/v3.3/glfw"
 )
 
-// MasterWindowFlags wrapps imgui.GLFWWindowFlags.
+// MasterWindowFlags wrapps imgui.GLFWWindowFlags
 type MasterWindowFlags imgui.GLFWWindowFlags
 
 const (
@@ -27,11 +25,11 @@ const (
 	MasterWindowFlagsTransparent MasterWindowFlags = MasterWindowFlags(imgui.GLFWWindowFlagsTransparent)
 )
 
-// DontCare could be used as an argument to (*MasterWindow).SetSizeLimits.
+// DontCare could be used as an argument to (*MasterWindow).SetSizeLimits
 var DontCare int = imgui.GlfwDontCare
 
 // MasterWindow represents a glfw master window
-// It is a base for a windows (see Window.go).
+// It is a base for a windows (see Window.go)
 type MasterWindow struct {
 	width      int
 	height     int
@@ -46,7 +44,7 @@ type MasterWindow struct {
 
 // NewMasterWindow creates a new master window and initializes GLFW.
 // it should be called in main function. For more details and use cases,
-// see examples/helloworld/.
+// see examples/helloworld/
 func NewMasterWindow(title string, width, height int, flags MasterWindowFlags) *MasterWindow {
 	context := imgui.CreateContext(nil)
 	imgui.ImPlotCreateContext()
@@ -64,10 +62,14 @@ func NewMasterWindow(title string, width, height int, flags MasterWindowFlags) *
 		panic(err)
 	}
 
+	scale := p.GetContentScale()
+
+	imgui.DPIScale = scale
+
 	// Assign platform to contex
 	Context.platform = p
 
-	r, err := imgui.NewOpenGL3(io, 1.0)
+	r, err := imgui.NewOpenGL3(io, scale)
 	if err != nil {
 		panic(err)
 	}
@@ -96,7 +98,7 @@ func NewMasterWindow(title string, width, height int, flags MasterWindowFlags) *
 		renderer:   r,
 	}
 
-	mw.SetInputHandler(newInputHandler())
+	mw.platform.SetInputCallback(handler)
 
 	p.SetSizeChangeCallback(mw.sizeChange)
 
@@ -107,11 +109,6 @@ func NewMasterWindow(title string, width, height int, flags MasterWindowFlags) *
 
 func (w *MasterWindow) setTheme() {
 	style := imgui.CurrentStyle()
-
-	// Scale DPI in windows
-	if runtime.GOOS == "windows" {
-		style.ScaleAllSizes(Context.GetPlatform().GetContentScale())
-	}
 
 	imgui.PushStyleVarFloat(imgui.StyleVarWindowRounding, 2)
 	imgui.PushStyleVarFloat(imgui.StyleVarFrameRounding, 4)
@@ -167,18 +164,19 @@ func (w *MasterWindow) setTheme() {
 	style.SetColor(imgui.StyleColorTableHeaderBg, imgui.Vec4{X: 0.12, Y: 0.20, Z: 0.28, W: 1.00})
 	style.SetColor(imgui.StyleColorTableBorderStrong, imgui.Vec4{X: 0.20, Y: 0.25, Z: 0.29, W: 1.00})
 	style.SetColor(imgui.StyleColorTableBorderLight, imgui.Vec4{X: 0.20, Y: 0.25, Z: 0.29, W: 0.70})
+
+	scale := w.platform.GetContentScale()
+
+	style.ScaleAllSizes(scale)
 }
 
 // SetBgColor sets background color of master window.
-func (w *MasterWindow) SetBgColor(bgColor color.Color) {
-	const mask = 0xffff
-
-	r, g, b, a := bgColor.RGBA()
+func (w *MasterWindow) SetBgColor(bgColor color.RGBA) {
 	w.clearColor = [4]float32{
-		float32(r) / mask,
-		float32(g) / mask,
-		float32(b) / mask,
-		float32(a) / mask,
+		float32(bgColor.R) / 255.0,
+		float32(bgColor.G) / 255.0,
+		float32(bgColor.B) / 255.0,
+		float32(bgColor.A) / 255.0,
 	}
 }
 
@@ -256,7 +254,7 @@ func (w *MasterWindow) SetPos(x, y int) {
 	}
 }
 
-// SetSize sets size of master window.
+// SetSize sets size of master window
 func (w *MasterWindow) SetSize(x, y int) {
 	if w.platform != nil {
 		if glfwPlatform, ok := w.platform.(*imgui.GLFW); ok {
@@ -309,10 +307,10 @@ func (w *MasterWindow) Run(loopFunc func()) {
 	})
 }
 
-// RegisterKeyboardShortcuts registers a global - master window - keyboard shortcuts.
+// RegisterKeyboardShortcuts registers a global - master window - keyboard shortcuts
 func (w *MasterWindow) RegisterKeyboardShortcuts(s ...WindowShortcut) *MasterWindow {
 	for _, shortcut := range s {
-		Context.InputHandler.RegisterKeyboardShortcuts(Shortcut{
+		RegisterKeyboardShortcuts(Shortcut{
 			Key:      shortcut.Key,
 			Modifier: shortcut.Modifier,
 			Callback: shortcut.Callback,
@@ -349,26 +347,17 @@ func (w *MasterWindow) SetSizeLimits(minw, minh, maxw, maxh int) {
 	w.platform.SetSizeLimits(minw, minh, maxw, maxh)
 }
 
-// SetTitle updates master window's title.
+// SetTitle updates master window's title
 func (w *MasterWindow) SetTitle(title string) {
 	w.platform.SetTitle(title)
 }
 
-// Close will savely close the master window.
+// Close will savely close the master window
 func (w *MasterWindow) Close() {
 	w.SetShouldClose(true)
 }
 
-// SetShouldClose sets whether master window should be closed.
+// SetShouldClose sets whether master window should be closed
 func (w *MasterWindow) SetShouldClose(v bool) {
 	w.platform.SetShouldStop(v)
-}
-
-func (w *MasterWindow) SetInputHandler(handler InputHandler) {
-	Context.InputHandler = handler
-	w.platform.SetInputCallback(func(key glfw.Key, modifier glfw.ModifierKey, action glfw.Action) {
-		if action == glfw.Press {
-			handler.Handle(Key(key), Modifier(modifier))
-		}
-	})
 }

@@ -1,6 +1,6 @@
 package main
 
-import "github.com/AllenDang/giu"
+import "github.com/HACKERALERT/giu"
 
 func loop() {
 	w1 := giu.Window("window 1")

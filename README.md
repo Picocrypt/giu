@@ -1,6 +1,5 @@
 # giu
 
-[![codecov](https://codecov.io/gh/AllenDang/giu/branch/master/graph/badge.svg)](https://codecov.io/gh/AllenDang/giu)
 [![Join the chat at https://gitter.im/AllenDang-giu/community](https://badges.gitter.im/AllenDang-giu/community.svg)](https://gitter.im/AllenDang-giu/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Go Report Card](https://goreportcard.com/badge/github.com/AllenDang/giu)](https://goreportcard.com/report/github.com/AllenDang/giu)
 ![Build Status](https://github.com/AllenDang/giu/actions/workflows/build.yml/badge.svg)
@@ -133,7 +132,7 @@ go get github.com/AllenDang/giu
 
 ### Windows
 
-1. Install mingw [download here](https://github.com/brechtsanders/winlibs_mingw/releases/latest). Thanks @alchem1ster!
+1. Install mingw [download here](https://github.com/brechtsanders/winlibs_mingw/releases/tag/10.2.0-11.0.0-8.0.0-r8). Thanks @alchem1ster!
 2. Add the binaries folder of mingw to the path (usually is _\mingw64\bin_).
 3. go get github.com/AllenDang/giu
 

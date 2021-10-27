@@ -3,10 +3,10 @@ package giu
 import "fmt"
 
 // DialogResult represents dialog result
-// dialog resullt is bool. if OK/Yes it is true, else (Cancel/No) - false.
+// dialog resullt is bool. if OK/Yes it is true, else (Cancel/No) - false
 type DialogResult bool
 
-// dialog results.
+// dialog results
 const (
 	DialogResultOK     DialogResult = true
 	DialogResultCancel DialogResult = false
@@ -18,17 +18,17 @@ const (
 // MsgboxButtons determines which buttons are in the dialog.
 type MsgboxButtons uint8
 
-// button sets.
+// button sets
 const (
-	// Yes-No question.
+	// Yes-No question
 	MsgboxButtonsYesNo MsgboxButtons = 1 << iota
-	// Ok / Cancel dialog.
+	// Ok / Cancel dialog
 	MsgboxButtonsOkCancel
-	// info.
+	// info
 	MsgboxButtonsOk
 )
 
-// DialogResultCallback is a callback for dialogs.
+// DialogResultCallback is a callback for dialogs
 type DialogResultCallback func(DialogResult)
 
 var _ Disposable = &msgboxState{}
@@ -41,7 +41,7 @@ type msgboxState struct {
 	open           bool
 }
 
-// Dispose implements disposable interface.
+// Dispose implements disposable interface
 func (ms *msgboxState) Dispose() {
 	// Nothing to do here.
 }
@@ -96,7 +96,7 @@ const msgboxID string = "###Msgbox"
 
 // PrepareMsgbox should be invoked in function in the same layout level where you call g.Msgbox.
 // BUG: calling this more than 1 time per frame causes unexpected
-// merging msgboxes layouts (see https://github.com/AllenDang/giu/issues/290)
+// merging msgboxes layouts (see https://github.com/HACKERALERT/giu/issues/290)
 func PrepareMsgbox() Layout {
 	return Layout{
 		Custom(func() {
@@ -109,9 +109,7 @@ func PrepareMsgbox() Layout {
 				state = &msgboxState{title: "Info", content: "Content", buttons: MsgboxButtonsOk, resultCallback: nil, open: false}
 				Context.SetState(msgboxID, state)
 			} else {
-				var isOk bool
-				state, isOk = stateRaw.(*msgboxState)
-				Assert(isOk, "MsgboxWidget", "PrepareMsgbox", "got state of unexpected type")
+				state = stateRaw.(*msgboxState)
 			}
 
 			if state.open {
@@ -131,7 +129,7 @@ func PrepareMsgbox() Layout {
 	}
 }
 
-// MsgboxWidget represents message dialog.
+// MsgboxWidget represents message dialog
 type MsgboxWidget struct{}
 
 func (m *MsgboxWidget) getState() *msgboxState {
@@ -145,7 +143,7 @@ func (m *MsgboxWidget) getState() *msgboxState {
 
 // Msgbox opens message box.
 // call it whenever you want to open popup with
-// question / info.
+// question / info
 func Msgbox(title, content string) *MsgboxWidget {
 	result := &MsgboxWidget{}
 
@@ -161,14 +159,14 @@ func Msgbox(title, content string) *MsgboxWidget {
 	return result
 }
 
-// Buttons sets which buttons should be possible.
+// Buttons sets which buttons should be possible
 func (m *MsgboxWidget) Buttons(buttons MsgboxButtons) *MsgboxWidget {
 	s := m.getState()
 	s.buttons = buttons
 	return m
 }
 
-// ResultCallback sets result callback.
+// ResultCallback sets result callback
 func (m *MsgboxWidget) ResultCallback(cb DialogResultCallback) *MsgboxWidget {
 	s := m.getState()
 	s.resultCallback = cb

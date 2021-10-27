@@ -3,10 +3,9 @@ package giu
 import (
 	"sync"
 
-	"github.com/AllenDang/imgui-go"
+	"github.com/HACKERALERT/imgui-go"
 )
 
-// Context represents a giu context.
 var Context context
 
 type Disposable interface {
@@ -29,8 +28,6 @@ type context struct {
 
 	// States will used by custom widget to store data
 	state sync.Map
-
-	InputHandler InputHandler
 }
 
 func (c *context) GetRenderer() imgui.Renderer {
@@ -84,7 +81,7 @@ func (c *context) GetState(id string) interface{} {
 	return nil
 }
 
-// Get widget index for current layout.
+// Get widget index for current layout
 func (c *context) GetWidgetIndex() int {
 	i := c.widgetIndexCounter
 	c.widgetIndexCounter++

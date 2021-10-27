@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	g "github.com/AllenDang/giu"
-	"github.com/AllenDang/imgui-go"
+	g "github.com/HACKERALERT/giu"
+	"github.com/HACKERALERT/imgui-go"
 )
 
 var (

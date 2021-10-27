@@ -8,7 +8,7 @@ import (
 	"sync"
 
 	"github.com/AllenDang/go-findfont"
-	"github.com/AllenDang/imgui-go"
+	"github.com/HACKERALERT/imgui-go"
 )
 
 var (
@@ -20,11 +20,11 @@ var (
 )
 
 const (
-	preRegisterString = " \"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
-	windows           = "windows"
+	preRegisterString = "\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
 )
 
-// FontInfo represents a giu implementation of imgui font.
+// FontInfo represents a the font.
+//
 type FontInfo struct {
 	fontName string
 	fontPath string
@@ -54,7 +54,7 @@ func init() {
 		registerDefaultFont("ヒラギノ角ゴシック W0", 17)
 		// Korean font
 		registerDefaultFont("AppleSDGothicNeo", 16)
-	case windows:
+	case "windows":
 		// English font
 		registerDefaultFont("Calibri", 16)
 		// Chinese font
@@ -78,7 +78,7 @@ func init() {
 	}
 }
 
-// SetDefaultFont changes default font.
+// SetDefaultFont changes default font
 func SetDefaultFont(fontName string, size float32) {
 	fontPath, err := findfont.Find(fontName)
 	if err != nil {
@@ -120,7 +120,7 @@ func AddFont(fontName string, size float32) *FontInfo {
 	return &fi
 }
 
-// AddFontFromBytes does similar to AddFont, but using data from memory.
+// AddFontFromBytes does similar to AddFont, but using data from memory
 func AddFontFromBytes(fontName string, fontBytes []byte, size float32) *FontInfo {
 	fi := FontInfo{
 		fontName: fontName,
@@ -229,11 +229,6 @@ func rebuildFontAtlas() {
 				fontConfig.SetMergeMode(true)
 			}
 
-			// Scale font size with DPI scale factor
-			if runtime.GOOS == windows {
-				fontInfo.size *= Context.GetPlatform().GetContentScale()
-			}
-
 			if len(fontInfo.fontByte) == 0 {
 				fonts.AddFontFromFileTTFV(fontInfo.fontPath, fontInfo.size, fontConfig, ranges.Data())
 			} else {
@@ -251,11 +246,6 @@ func rebuildFontAtlas() {
 
 	// Add extra fonts
 	for _, fontInfo := range extraFonts {
-		// Scale font size with DPI scale factor
-		if runtime.GOOS == windows {
-			fontInfo.size *= Context.GetPlatform().GetContentScale()
-		}
-
 		// Store imgui.Font for PushFont
 		var f imgui.Font
 		if len(fontInfo.fontByte) == 0 {
