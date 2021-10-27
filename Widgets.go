@@ -1028,7 +1028,7 @@ func (i *ImageWithURLWidget) LayoutForFailure(widgets ...Widget) *ImageWithURLWi
 
 // Build implements Widget interface
 func (i *ImageWithURLWidget) Build() {
-	imgState := &ImageState{}
+	/*imgState := &ImageState{}
 
 	if state := Context.GetState(i.id); state == nil {
 		Context.SetState(i.id, imgState)
@@ -1037,7 +1037,7 @@ func (i *ImageWithURLWidget) Build() {
 		downloadContext, cancalFunc := ctx.WithCancel(ctx.Background())
 		Context.SetState(i.id, &ImageState{loading: true, cancel: cancalFunc})
 
-		/*go func() {
+		go func() {
 			// Load image from url
 			client := reesty.New()
 			client.SetTimeout(i.downloadTimeout)
@@ -1079,7 +1079,7 @@ func (i *ImageWithURLWidget) Build() {
 			if i.onReady != nil {
 				i.onReady()
 			}
-		}()*/
+		}()
 	} else {
 		imgState = state.(*ImageState)
 	}
@@ -1092,7 +1092,7 @@ func (i *ImageWithURLWidget) Build() {
 	default:
 		i.img.texture = imgState.texture
 		i.img.Build()
-	}
+	}*/
 }
 
 var _ Widget = &InputTextWidget{}
