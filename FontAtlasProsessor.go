@@ -7,7 +7,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/HACKERALERT/go-findfont"
+	_"github.com/HACKERALERT/go-findfont"
 	"github.com/HACKERALERT/imgui-go"
 )
 
@@ -43,7 +43,7 @@ func init() {
 	tStr(preRegisterString)
 
 	// Pre-register fonts
-	os := runtime.GOOS
+	/*os := runtime.GOOS
 	switch os {
 	case "darwin":
 		// English font
@@ -75,11 +75,11 @@ func init() {
 				size:     15,
 			},
 		})
-	}
+	}*/
 }
 
 // SetDefaultFont changes default font
-func SetDefaultFont(fontName string, size float32) {
+/*func SetDefaultFont(fontName string, size float32) {
 	fontPath, err := findfont.Find(fontName)
 	if err != nil {
 		log.Fatalf("Cannot find font %s", fontName)
@@ -88,7 +88,7 @@ func SetDefaultFont(fontName string, size float32) {
 
 	fontInfo := FontInfo{fontName: fontName, fontPath: fontPath, size: size}
 	defaultFonts = append([]FontInfo{fontInfo}, defaultFonts...)
-}
+}*/
 
 // SetDefaultFontFromBytes changes default font by bytes of the font file.
 func SetDefaultFontFromBytes(fontBytes []byte, size float32) {
@@ -102,7 +102,7 @@ func SetDefaultFontFromBytes(fontBytes []byte, size float32) {
 
 // AddFont adds font by name, if the font is found, return *FontInfo, otherwise return nil.
 // To use added font, use giu.Style().SetFont(...).
-func AddFont(fontName string, size float32) *FontInfo {
+/*func AddFont(fontName string, size float32) *FontInfo {
 	fontPath, err := findfont.Find(fontName)
 	if err != nil {
 		fmt.Printf("[Warning]Cannot find font %s at system, related text will not be rendered.\n", fontName)
@@ -156,7 +156,7 @@ func registerDefaultFonts(fontInfos []FontInfo) {
 	if firstFoundFont != nil {
 		defaultFonts = append(defaultFonts, *firstFoundFont)
 	}
-}
+}*/
 
 // Register string to font atlas builder.
 // Note only register strings that will be displayed on the UI.
