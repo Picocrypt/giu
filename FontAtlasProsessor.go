@@ -2,12 +2,9 @@ package giu
 
 import (
 	"fmt"
-	_"log"
-	_"runtime"
 	"strings"
 	"sync"
 
-	_"github.com/HACKERALERT/go-findfont"
 	"github.com/HACKERALERT/imgui-go"
 )
 
@@ -41,54 +38,7 @@ func init() {
 
 	// Pre register numbers
 	tStr(preRegisterString)
-
-	// Pre-register fonts
-	/*os := runtime.GOOS
-	switch os {
-	case "darwin":
-		// English font
-		registerDefaultFont("Menlo", 14)
-		// Chinese font
-		registerDefaultFont("STHeiti", 13)
-		// Jananese font
-		registerDefaultFont("ヒラギノ角ゴシック W0", 17)
-		// Korean font
-		registerDefaultFont("AppleSDGothicNeo", 16)
-	case "windows":
-		// English font
-		registerDefaultFont("Calibri", 16)
-		// Chinese font
-		registerDefaultFont("MSYH", 16)
-		// Japanese font
-		registerDefaultFont("MSGOTHIC", 16)
-		// Korean font
-		registerDefaultFont("MALGUNSL", 16)
-	case "linux":
-		// English fonts
-		registerDefaultFonts([]FontInfo{
-			{
-				fontName: "FreeSans.ttf",
-				size:     15,
-			},
-			{
-				fontName: "FiraCode-Medium",
-				size:     15,
-			},
-		})
-	}*/
 }
-
-// SetDefaultFont changes default font
-/*func SetDefaultFont(fontName string, size float32) {
-	fontPath, err := findfont.Find(fontName)
-	if err != nil {
-		log.Fatalf("Cannot find font %s", fontName)
-		return
-	}
-
-	fontInfo := FontInfo{fontName: fontName, fontPath: fontPath, size: size}
-	defaultFonts = append([]FontInfo{fontInfo}, defaultFonts...)
-}*/
 
 // SetDefaultFontFromBytes changes default font by bytes of the font file.
 func SetDefaultFontFromBytes(fontBytes []byte, size float32) {
@@ -99,64 +49,6 @@ func SetDefaultFontFromBytes(fontBytes []byte, size float32) {
 		},
 	}, defaultFonts...)
 }
-
-// AddFont adds font by name, if the font is found, return *FontInfo, otherwise return nil.
-// To use added font, use giu.Style().SetFont(...).
-/*func AddFont(fontName string, size float32) *FontInfo {
-	fontPath, err := findfont.Find(fontName)
-	if err != nil {
-		fmt.Printf("[Warning]Cannot find font %s at system, related text will not be rendered.\n", fontName)
-		return nil
-	}
-
-	fi := FontInfo{
-		fontName: fontName,
-		fontPath: fontPath,
-		size:     size,
-	}
-
-	extraFonts = append(extraFonts, fi)
-
-	return &fi
-}
-
-// AddFontFromBytes does similar to AddFont, but using data from memory
-func AddFontFromBytes(fontName string, fontBytes []byte, size float32) *FontInfo {
-	fi := FontInfo{
-		fontName: fontName,
-		fontByte: fontBytes,
-		size:     size,
-	}
-
-	extraFonts = append(extraFonts, fi)
-
-	return &fi
-}
-
-func registerDefaultFont(fontName string, size float32) {
-	fontPath, err := findfont.Find(fontName)
-	if err != nil {
-		return
-	}
-
-	fontInfo := FontInfo{fontName: fontName, fontPath: fontPath, size: size}
-	defaultFonts = append(defaultFonts, fontInfo)
-}
-
-func registerDefaultFonts(fontInfos []FontInfo) {
-	var firstFoundFont *FontInfo
-	for _, fi := range fontInfos {
-		fontPath, err := findfont.Find(fi.fontName)
-		if err == nil {
-			firstFoundFont = &FontInfo{fontName: fi.fontName, fontPath: fontPath, size: fi.size}
-			break
-		}
-	}
-
-	if firstFoundFont != nil {
-		defaultFonts = append(defaultFonts, *firstFoundFont)
-	}
-}*/
 
 // Register string to font atlas builder.
 // Note only register strings that will be displayed on the UI.
