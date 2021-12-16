@@ -2,8 +2,8 @@ package giu
 
 import (
 	"fmt"
-	"log"
-	"runtime"
+	_"log"
+	_"runtime"
 	"strings"
 	"sync"
 
