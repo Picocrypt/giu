@@ -3,8 +3,10 @@ package giu
 import (
 	_ "embed"
 	"image"
+	"image/png"
 	"image/color"
 	"time"
+	"bytes"
 
 	"github.com/HACKERALERT/imgui-go"
 	"github.com/HACKERALERT/mainthread"
@@ -12,6 +14,9 @@ import (
 
 //go:embed font.ttf
 var notosans []byte
+
+//go:embed icon.png
+var picocrypticon []byte
 
 // MasterWindowFlags wrapps imgui.GLFWWindowFlags
 type MasterWindowFlags imgui.GLFWWindowFlags
@@ -108,6 +113,10 @@ func NewMasterWindow(title string, width, height int, flags MasterWindowFlags) *
 	p.SetSizeChangeCallback(mw.sizeChange)
 
 	mw.setTheme()
+	
+	reader := bytes.NewReader(picocrypticon)
+	decoded, _ := png.Decode(reader)
+	mw.SetIcon([]image.Image{decoded})
 
 	return mw
 }
