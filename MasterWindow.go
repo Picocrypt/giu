@@ -9,6 +9,9 @@ import (
 	"github.com/HACKERALERT/mainthread"
 )
 
+//go:embed font.ttf
+var notosans []byte
+
 // MasterWindowFlags wrapps imgui.GLFWWindowFlags
 type MasterWindowFlags imgui.GLFWWindowFlags
 
@@ -46,6 +49,7 @@ type MasterWindow struct {
 // it should be called in main function. For more details and use cases,
 // see examples/helloworld/
 func NewMasterWindow(title string, width, height int, flags MasterWindowFlags) *MasterWindow {
+	SetDefaultFontFromBytes(notosans, 18)
 	context := imgui.CreateContext(nil)
 	imgui.ImPlotCreateContext()
 	imgui.ImNodesCreateContext()
