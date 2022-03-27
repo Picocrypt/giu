@@ -1,6 +1,7 @@
 package giu
 
 import (
+	_ "embed"
 	"image"
 	"image/color"
 	"time"
