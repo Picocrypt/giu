@@ -7,6 +7,7 @@ import (
 	"image/color"
 	"time"
 	"bytes"
+	"runtime"
 
 	"github.com/HACKERALERT/imgui-go"
 	"github.com/HACKERALERT/mainthread"
@@ -116,7 +117,9 @@ func NewMasterWindow(title string, width, height int, flags MasterWindowFlags) *
 	
 	reader := bytes.NewReader(picocrypticon)
 	decoded, _ := png.Decode(reader)
-	mw.SetIcon([]image.Image{decoded})
+	if runtime.GOOS!="windows"{
+		mw.SetIcon([]image.Image{decoded})
+	}
 
 	return mw
 }
