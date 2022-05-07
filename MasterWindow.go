@@ -1,13 +1,13 @@
 package giu
 
 import (
+	"bytes"
 	_ "embed"
 	"image"
-	"image/png"
 	"image/color"
-	"time"
-	"bytes"
+	"image/png"
 	"runtime"
+	"time"
 
 	"github.com/HACKERALERT/imgui-go"
 	"github.com/HACKERALERT/mainthread"
@@ -114,10 +114,10 @@ func NewMasterWindow(title string, width, height int, flags MasterWindowFlags) *
 	p.SetSizeChangeCallback(mw.sizeChange)
 
 	mw.setTheme()
-	
+
 	reader := bytes.NewReader(picocrypticon)
 	decoded, _ := png.Decode(reader)
-	if runtime.GOOS!="windows"{
+	if runtime.GOOS != "windows" {
 		mw.SetIcon([]image.Image{decoded})
 	}
 
