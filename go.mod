@@ -3,7 +3,7 @@ module github.com/HACKERALERT/giu
 go 1.16
 
 require (
-	github.com/HACKERALERT/glfw/v3.3/glfw v0.0.0-20220418220159-8c0b01dff26c
-	github.com/HACKERALERT/imgui-go v1.12.1-0.20220507040723-ae12ce6efa68
+	github.com/HACKERALERT/glfw/v3.3/glfw v0.0.0-20220507233141-2c5dd2490d18
+	github.com/HACKERALERT/imgui-go v1.12.1-0.20220508022827-caafd6b26a07
 	github.com/HACKERALERT/mainthread v0.0.0-20211027212305-2ec9e701cc14
 )
