@@ -203,10 +203,6 @@ func (w *MasterWindow) sizeChange(width, height int) {
 
 func (w *MasterWindow) render() {
 	Context.invalidAllState()
-	
-	//
-	w.setTheme()
-	//
 
 	rebuildFontAtlas()
 
