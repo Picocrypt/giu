@@ -205,8 +205,7 @@ func (w *MasterWindow) render() {
 	Context.invalidAllState()
 	
 	//
-	scale := w.platform.GetContentScale()
-	imgui.CurrentStyle().ScaleAllSizes(scale)
+	w.setTheme()
 	//
 
 	rebuildFontAtlas()
