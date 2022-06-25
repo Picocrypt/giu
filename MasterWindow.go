@@ -204,6 +204,7 @@ func (w *MasterWindow) sizeChange(width, height int) {
 func (w *MasterWindow) render() {
 	Context.invalidAllState()
 
+	imgui.DPIScale = w.platform.GetContentScale()
 	rebuildFontAtlas()
 
 	p := w.platform
