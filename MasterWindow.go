@@ -203,6 +203,13 @@ func (w *MasterWindow) sizeChange(width, height int) {
 
 func (w *MasterWindow) render() {
 	Context.invalidAllState()
+	
+	//
+	scale := w.platform.GetContentScale()
+	imgui.CurrentStyle().ScaleAllSizes(scale)
+	r.Rescale(scale)
+	
+	//
 
 	rebuildFontAtlas()
 
