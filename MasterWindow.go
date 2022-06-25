@@ -204,11 +204,16 @@ func (w *MasterWindow) sizeChange(width, height int) {
 func (w *MasterWindow) render() {
 	Context.invalidAllState()
 
-	imgui.DPIScale = w.platform.GetContentScale()
-	rebuildFontAtlas()
-
 	p := w.platform
 	r := w.renderer
+	
+	
+	//
+	imgui.DPIScale = w.platform.GetContentScale()
+	rebuildFontAtlas()
+	r.Scale(w.platform.GetContentScale())
+	
+	//
 
 	p.NewFrame()
 	r.PreRender(w.clearColor)
