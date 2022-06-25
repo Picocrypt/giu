@@ -80,7 +80,7 @@ func NewMasterWindow(title string, width, height int, flags MasterWindowFlags) *
 	// Assign platform to contex
 	Context.platform = p
 
-	r, err := imgui.NewOpenGL3(io, 1.0)// scale)
+	r, err := imgui.NewOpenGL3(io, scale)
 	if err != nil {
 		panic(err)
 	}
@@ -126,8 +126,6 @@ func NewMasterWindow(title string, width, height int, flags MasterWindowFlags) *
 
 func (w *MasterWindow) setTheme() {
 	style := imgui.CurrentStyle()
-	
-	style.ScaleAllSizes(Context.GetPlatform().GetContentScale())
 
 	imgui.PushStyleVarFloat(imgui.StyleVarWindowRounding, 2)
 	imgui.PushStyleVarFloat(imgui.StyleVarFrameRounding, 4)
@@ -184,9 +182,9 @@ func (w *MasterWindow) setTheme() {
 	style.SetColor(imgui.StyleColorTableBorderStrong, imgui.Vec4{X: 0.20, Y: 0.25, Z: 0.29, W: 1.00})
 	style.SetColor(imgui.StyleColorTableBorderLight, imgui.Vec4{X: 0.20, Y: 0.25, Z: 0.29, W: 0.70})
 
-	//scale := w.platform.GetContentScale()
+	scale := w.platform.GetContentScale()
 
-	//style.ScaleAllSizes(Context.GetPlatform().GetContentScale())
+	style.ScaleAllSizes(scale)
 }
 
 // SetBgColor sets background color of master window.
@@ -208,6 +206,14 @@ func (w *MasterWindow) render() {
 
 	p := w.platform
 	r := w.renderer
+	
+	
+	//
+	imgui.DPIScale = w.platform.GetContentScale()
+	rebuildFontAtlas()
+	r.Scale(w.platform.GetContentScale())
+	
+	//
 
 	p.NewFrame()
 	r.PreRender(w.clearColor)
