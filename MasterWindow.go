@@ -207,7 +207,7 @@ func (w *MasterWindow) render() {
 	//
 	scale := w.platform.GetContentScale()
 	imgui.CurrentStyle().ScaleAllSizes(scale)
-	r.Rescale(scale)
+	w.renderer.Rescale(scale)
 	
 	//
 
