@@ -2,4 +2,4 @@
 
 package giu
 
-func fixDpi() {}
+func FixDPI() {}
