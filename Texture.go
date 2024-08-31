@@ -5,8 +5,8 @@ import (
 	"image"
 	"runtime"
 
-	"github.com/HACKERALERT/imgui-go"
-	"github.com/HACKERALERT/mainthread"
+	"github.com/Picocrypt/imgui-go"
+	"github.com/Picocrypt/mainthread"
 )
 
 type Texture struct {
