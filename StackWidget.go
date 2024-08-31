@@ -1,6 +1,6 @@
 package giu
 
-import "github.com/HACKERALERT/imgui-go"
+import "github.com/Picocrypt/imgui-go"
 
 var _ Widget = &StackWidget{}
 
