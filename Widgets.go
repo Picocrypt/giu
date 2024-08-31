@@ -7,7 +7,7 @@ import (
 	"image/color"
 	"time"
 
-	"github.com/HACKERALERT/imgui-go"
+	"github.com/Picocrypt/imgui-go"
 )
 
 // GenAutoID automatically generates fidget's id
