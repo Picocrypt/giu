@@ -3,7 +3,7 @@ package giu
 import (
 	"fmt"
 
-	"github.com/HACKERALERT/imgui-go"
+	"github.com/Picocrypt/imgui-go"
 )
 
 // LanguageDefinition represents code editor's language definition
