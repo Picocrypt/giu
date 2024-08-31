@@ -9,8 +9,8 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/HACKERALERT/imgui-go"
-	"github.com/HACKERALERT/mainthread"
+	"github.com/Picocrypt/imgui-go"
+	"github.com/Picocrypt/mainthread"
 )
 
 //go:embed font.ttf
