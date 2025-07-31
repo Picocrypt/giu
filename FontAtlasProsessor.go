@@ -108,6 +108,12 @@ func rebuildFontAtlas() {
 		builder.AddRanges(fonts.GlyphRangesDefault())
 	}
 
+	builder.AddRanges(fonts.GlyphRangesCyrillic())
+	// builder.AddRanges(fonts.GlyphRangesChineseSimplifiedCommon())
+	// builder.AddRanges(fonts.GlyphRangesJapanese())
+	// builder.AddRanges(fonts.GlyphRangesKorean())
+	// builder.AddRanges(fonts.GlyphRangesThai())
+
 	builder.BuildRanges(ranges)
 
 	if len(defaultFonts) > 0 {
